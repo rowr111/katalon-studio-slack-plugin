@@ -29,9 +29,7 @@ public class SlackEventListenerInitializer implements EventListenerInitializer, 
                 }
                 authToken = preferences.getString(SlackConstants.PREF_AUTH_TOKEN, "");
                 String channelsString = preferences.getString(SlackConstants.PREF_AUTH_CHANNEL, "");
-                System.out.println(channelsString);
                 String[] channelsArray = channelsString.split("\\s*,\\s*");
-                System.out.println(Arrays.toString(channelsArray) + "array " + channelsArray[0] + "1 " + channelsArray[1] + "2  Channels List*********************");
                 reportDir = preferences.getString(SlackConstants.PREF_REPORT_DIR, "");
                 if (ExecutionEvent.TEST_SUITE_FINISHED_EVENT.equals(event.getTopic())) {
                     for (String currentChannel : channelsArray) {
@@ -49,7 +47,6 @@ public class SlackEventListenerInitializer implements EventListenerInitializer, 
                             extension = "pdf";
                             channel = currentChannel;  
                         }
-                        System.out.println(channel + " Channel " + extension + " extension");
                         ExecutionEvent eventObject = (ExecutionEvent) event.getProperty("org.eclipse.e4.data");
 
                         TestSuiteExecutionContext testSuiteContext = (TestSuiteExecutionContext) eventObject
@@ -119,10 +116,9 @@ public class SlackEventListenerInitializer implements EventListenerInitializer, 
                     String fileName = FilenameUtils.getBaseName(child.getName());
                     String contextId = context.getId();
                     String ext = FilenameUtils.getExtension(child.getName());
-                    System.out.println(fileName + " File Name + " + contextId + " context ID " + ext + " ext " + authToken + " Auth token");
                     if (ext.equals(extension) && contextId.equals(fileName)) {
                         SlackUtil.sendFile(authToken, channel, context.getSourceId(), context.getId(), child);
-                        System.out.println("Slack: Summary attachment message has been successfully sent");  
+                        System.out.println("Slack: Summary attachment file has been successfully sent to channel: " + channel);  
                     }
                 }
             }
