@@ -32,6 +32,9 @@ Requirements:
 
 ![summary_message](/docs/images/summary_message.png)
 
-#### Report file upload
-- If you have generated reports with the report plug in, and you have indicated the location of your Reports folder in the Slack Integration settings, any report files (html, csv, or pdf) found under the ID for test suites executed will be uploaded to the same Slack channel.
+#### Report file upload and channel(s) selection
+- You can send results to multiple channels by comma separating them in the Channel/Group text box.
+- If you have generated reports with the report plugin, and you have indicated the location of your Reports folder in the Slack Integration settings, by default the PDF report file found under the ID for test suites executed will be uploaded to the same Slack channel.
+- Optionally, appending .none, .csv, or .html to a channel name will instead send the respective file (none send only the text summary).
+- e.g. business_facing,results_summary.none,automation_debugging.html will send the suite results text summary to all 3 channels, and additionally send the PDF to the business_facing channel (since the PDFs are more human-readable), and the HTML report to the automation_debugging channel (since the HTML files expand further on details of failures). 
 - this requires the *files:write:user* scope for your app.
