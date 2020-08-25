@@ -25,7 +25,9 @@ public class SlackPreferencePage extends PreferencePage implements SlackComponen
 
     private Button chckEnableIntegration;
 
-    private Group grpAuthentication;
+    private Group grpSettings;
+
+    private Group grpHelpText;
 
     private Text txtToken;
 
@@ -49,39 +51,39 @@ public class SlackPreferencePage extends PreferencePage implements SlackComponen
         chckEnableIntegration = new Button(container, SWT.CHECK);
         chckEnableIntegration.setText("Using Slack");
 
-        grpAuthentication = new Group(container, SWT.NONE);
-        grpAuthentication.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
-        GridLayout glAuthentication = new GridLayout(2, false);
-        glAuthentication.horizontalSpacing = 15;
-        glAuthentication.verticalSpacing = 10;
-        grpAuthentication.setLayout(glAuthentication);
-        grpAuthentication.setText("Authentication");
+        grpSettings = new Group(container, SWT.NONE);
+        grpSettings.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
+        GridLayout glSettings = new GridLayout(2, false);
+        glSettings.horizontalSpacing = 15;
+        glSettings.verticalSpacing = 10;
+        grpSettings.setLayout(glSettings);
+        grpSettings.setText("Settings");
 
-        Label lblToken = new Label(grpAuthentication, SWT.NONE);
+        Label lblToken = new Label(grpSettings, SWT.NONE);
         lblToken.setText("Authentication Token");
         GridData gdLabel = new GridData(SWT.LEFT, SWT.TOP, false, false);
         lblToken.setLayoutData(gdLabel);
 
-        txtToken = new Text(grpAuthentication, SWT.BORDER);
+        txtToken = new Text(grpSettings, SWT.BORDER);
         GridData gdTxtToken = new GridData(SWT.FILL, SWT.CENTER, true, false);
         gdTxtToken.widthHint = 200;
         txtToken.setLayoutData(gdTxtToken);
 
-        Label lblChannel = new Label(grpAuthentication, SWT.NONE);
+        Label lblChannel = new Label(grpSettings, SWT.NONE);
         lblChannel.setText("Channel/Group");
         lblToken.setLayoutData(gdLabel);
 
-        txtChannel = new Text(grpAuthentication, SWT.BORDER);
+        txtChannel = new Text(grpSettings, SWT.BORDER);
         txtChannel.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
 
-        Label lblReport = new Label(grpAuthentication, SWT.NONE);
+        Label lblReport = new Label(grpSettings, SWT.NONE);
         lblReport.setText("Report Folder (empty = no upload)");
         lblReport.setLayoutData(gdLabel);
 
-        txtReport = new Text(grpAuthentication, SWT.BORDER);
+        txtReport = new Text(grpSettings, SWT.BORDER);
         txtReport.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
 
-        btnTestConnection = new Button(grpAuthentication, SWT.PUSH);
+        btnTestConnection = new Button(grpSettings, SWT.PUSH);
         btnTestConnection.setText("Test Connection");
         btnTestConnection.addSelectionListener(new SelectionAdapter() {
             @Override
@@ -89,10 +91,24 @@ public class SlackPreferencePage extends PreferencePage implements SlackComponen
                 testSlackConnection(txtToken.getText(), txtChannel.getText());
             }
         });
+     
 
-        lblConnectionStatus = new Label(grpAuthentication, SWT.NONE);
+        lblConnectionStatus = new Label(grpSettings, SWT.NONE);
         lblConnectionStatus.setText("");
         lblConnectionStatus.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, true, 1, 1));
+
+
+        grpHelpText = new Group(container, SWT.NONE);
+        grpHelpText.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
+        GridLayout glHelpText = new GridLayout(2, false);
+        glHelpText.horizontalSpacing = 15;
+        glHelpText.verticalSpacing = 10;
+        grpHelpText.setLayout(glHelpText);
+        grpHelpText.setText("Help");
+
+        Label helpText = new Label(grpHelpText, SWT.NONE);
+        helpText.setText("Comma separate channels to send to multiple channels. \nBy default, the PDF report will be uploaded. To change which file sends for specific\nchannels, append .none or .html.\n e.g. automation-results,automation-report-summary.none,automation-debug.html \nwill send the PDF to the first channel, only the text results to the second, and the\nHTML file to the third.");
+        helpText.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, true, 1, 1));   
 
         handleControlModifyEventListeners();
         initializeInput();
@@ -140,7 +156,7 @@ public class SlackPreferencePage extends PreferencePage implements SlackComponen
         chckEnableIntegration.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                recursiveSetEnabled(grpAuthentication, chckEnableIntegration.getSelection());
+                recursiveSetEnabled(grpSettings, chckEnableIntegration.getSelection());
             }
         });
     }
